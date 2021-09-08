@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import SearchLibrary from './SearchLibrary'
 import ShowLibrary from './ShowLibrary'
+import { debounce } from 'throttle-debounce';
 import * as BooksAPI from './BooksAPI'
 import { Route } from 'react-router-dom'
 
@@ -15,14 +16,11 @@ class BooksApp extends React.Component {
   
   
   // On Initial Load: retrieve all books from server
-  componentDidMount() {
+  // EDIT: Make use of Promises
+  async componentDidMount() {
   	//window.localStorage.clear(); // I used this to reset local DB in the event of missing books.
-    BooksAPI.getAll()
-      .then((allBooks) => {
-        this.setState(() => ({
-          allBooks: allBooks
-        }))
-    })
+    const books = await BooksAPI.getAll()
+    this.setState({ allBooks: books })
   }
   
   
@@ -55,7 +53,9 @@ class BooksApp extends React.Component {
   }
   
   // Perform seach using BooksAPI
-  searchForBooks = searchQuery => {
+  // EDIT: Using debounce to delay search function until user is done typing
+  searchForBooks = debounce(500, false,
+    searchQuery => {
     if (searchQuery.length > 0) {
       BooksAPI.search(searchQuery).then(books => {
         if (books.error) { // catch "books not found" from search
@@ -67,7 +67,7 @@ class BooksApp extends React.Component {
     } else {
       this.setState({ booksSearchedFor: [] })
     }
-  };
+  });
   
 
   render() {

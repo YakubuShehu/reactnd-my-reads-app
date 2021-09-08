@@ -24,11 +24,10 @@ class SearchLibrary extends Component {
   
   // function to update state
   updateQuery = (newQuery) => {
-    const q = newQuery.trim()
     this.setState(() => ({
-      searchQuery: q
+      searchQuery: newQuery
     }));
-    this.props.onSearch(q);
+    this.props.onSearch(newQuery);
   }
   
   
@@ -72,16 +71,27 @@ class SearchLibrary extends Component {
             </div>
           </div>
           <div className='search-books-results'>
-            <ol className='books-grid'>
-				{syncedBooks.map((book) => (
-                  <BookItem
-          	    	key={book.id}
-                    book={book}
-                    shelfID={book.shelf ? book.shelf : 'none' } // cater for books not in any shelf
-                    onShelfSwitch={onShelfSwitch}
-                  />
-                ))}
-			</ol>
+
+			{/* default when no books have been searched for or found */}
+            {syncedBooks.length === 0 ?
+              (
+                <p className='card card-text'>
+                  No books found for this search. Try searching for something else maybe?
+                </p>
+              )
+			  :
+			  (
+                <ol className='books-grid'>
+                    {syncedBooks.map((book) => (
+                      <BookItem
+                        key={book.id}
+                        book={book}
+                        shelfID={book.shelf ? book.shelf : 'none' } // cater for books not in any shelf
+                        onShelfSwitch={onShelfSwitch}
+                      />
+                    ))}
+                </ol>
+			  )}
           </div>
         </div>
     )
