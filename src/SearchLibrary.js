@@ -5,7 +5,15 @@ import { Link } from 'react-router-dom'
 
 class SearchLibrary extends Component {
 
+  // add a state object to store searchquery
+  state = {
+    searchQuery: '',
+  }
+  
   render() {
+    
+    // define constants from props and state
+    //const { searchQuery } = this.state
 
     return(
         <div className='search-books'>

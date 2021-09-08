@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookReader, faCircle, faHourglassHalf, faHeart, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { faHourglassHalf, faHeart, faCheckCircle, faBookReader, faCircle } from '@fortawesome/free-solid-svg-icons'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import BookShelfItem from './BookShelfItem'
 
 class ShowLibrary extends Component {
+  
+  // assign prop types
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    onChangeStatus: PropTypes.func.isRequired
+  }
 
+  
   render() {
-
+    
+    // define constants from props and state
+    const { books, onChangeStatus } = this.props
+    
     return(
     <div>
       
@@ -28,98 +40,35 @@ class ShowLibrary extends Component {
       <div className='list-books-content'>
         <div>
 
-
 		  {/* Bookshelf that stores books that are currently being read */}
-          <div
-			className='bookshelf'
-			id='cr-bookshelf'>
-            <h2 className='bookshelf-title'><FontAwesomeIcon icon={faHourglassHalf} color='#f2bf25' /> Currently Reading</h2>
-            <div className='bookshelf-books'>
-              <ol className='books-grid'>
-                <li>
-                  <div className='book'>
-                    <div className='book-top'>
-                      <div className='book-cover' style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
-                      <div className='book-shelf-changer'>
-                        <select>
-                          <option value='move' disabled>Move to...</option>
-                          <option value='currentlyReading'>Currently Reading</option>
-                          <option value='wantToRead'>Want to Read</option>
-                          <option value='read'>Read</option>
-                          <option value='none'>None</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className='book-title'>To Kill a Mockingbird</div>
-                    <div className='book-authors'>Harper Lee</div>
-                  </div>
-                </li>
-              </ol>
-            </div>
-          </div>
-
+		  <BookShelfItem
+			books={books}
+			shelfID='currentlyReading'
+			iconClass={[faHourglassHalf, '#f2bf25']}
+			shelfTitle='Currently Reading'
+			onSwitch={onChangeStatus}
+		  />
 
 
 		  {/* Bookshelf that stores books that are on the reading wishlist */}
-          <div
-			className='bookshelf'
-			id='wtr-bookshelf'>
-            <h2 className='bookshelf-title'><FontAwesomeIcon icon={faHeart} color='#f22929' /> Want to Read</h2>
-            <div className='bookshelf-books'>
-              <ol className='books-grid'>
-                <li>
-                  <div className='book'>
-                    <div className='book-top'>
-                      <div className='book-cover' style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=uu1mC6zWNTwC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73pGHfBNSsJG9Y8kRBpmLUft9O4BfItHioHolWNKOdLavw-SLcXADy3CPAfJ0_qMb18RmCa7Ds1cTdpM3dxAGJs8zfCfm8c6ggBIjzKT7XR5FIB53HHOhnsT7a0Cc-PpneWq9zX&source=gbs_api")' }}></div>
-                      <div className='book-shelf-changer'>
-                        <select>
-                          <option value='move' disabled>Move to...</option>
-                          <option value='currentlyReading'>Currently Reading</option>
-                          <option value='wantToRead'>Want to Read</option>
-                          <option value='read'>Read</option>
-                          <option value='none'>None</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className='book-title'>1776</div>
-                    <div className='book-authors'>David McCullough</div>
-                  </div>
-                </li>
-              </ol>
-            </div>
-          </div>
-
-
+		  <BookShelfItem
+			books={books}
+			shelfID='wantToRead'
+			iconClass={[faHeart, '#f22929']}
+			shelfTitle='Want to Read'
+			onSwitch={onChangeStatus}
+		  />
 
 
 		  {/* Bookshelf that stores books that have been read */}
-          <div
-			className='bookshelf'
-			id='fr-bookshelf'>
-            <h2 className='bookshelf-title'><FontAwesomeIcon icon={faCheckCircle} color='#19a228' /> Read</h2>
-            <div className='bookshelf-books'>
-              <ol className='books-grid'>
-                <li>
-                  <div className='book'>
-                    <div className='book-top'>
-                      <div className='book-cover' style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=pD6arNyKyi8C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70Rw0CCwNZh0SsYpQTkMbvz23npqWeUoJvVbi_gXla2m2ie_ReMWPl0xoU8Quy9fk0Zhb3szmwe8cTe4k7DAbfQ45FEzr9T7Lk0XhVpEPBvwUAztOBJ6Y0QPZylo4VbB7K5iRSk&source=gbs_api")' }}></div>
-                      <div className='book-shelf-changer'>
-                        <select>
-                          <option value='move' disabled>Move to...</option>
-                          <option value='currentlyReading'>Currently Reading</option>
-                          <option value='wantToRead'>Want to Read</option>
-                          <option value='read'>Read</option>
-                          <option value='none'>None</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className='book-title'>The Hobbit</div>
-                    <div className='book-authors'>J.R.R. Tolkien</div>
-                  </div>
-                </li>
-              </ol>
-            </div>
-          </div>
+		  <BookShelfItem
+			books={books}
+			shelfID='read'
+			iconClass={[faCheckCircle, '#19a228']}
+			shelfTitle='Read'
+			onSwitch={onChangeStatus}
+		  />
+
         </div>
 
 		{/* Button: Trigger search page */}
