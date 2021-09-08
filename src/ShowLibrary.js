@@ -10,14 +10,14 @@ class ShowLibrary extends Component {
   // assign prop types
   static propTypes = {
     books: PropTypes.array.isRequired,
-    onChangeStatus: PropTypes.func.isRequired
+    onShelfSwitch: PropTypes.func.isRequired
   }
 
   
   render() {
     
     // define constants from props and state
-    const { books, onChangeStatus } = this.props
+    const { books, onShelfSwitch } = this.props
     
     return(
     <div>
@@ -46,7 +46,7 @@ class ShowLibrary extends Component {
 			shelfID='currentlyReading'
 			iconClass={[faHourglassHalf, '#f2bf25']}
 			shelfTitle='Currently Reading'
-			onSwitch={onChangeStatus}
+			onShelfSwitch={onShelfSwitch}
 		  />
 
 
@@ -56,7 +56,7 @@ class ShowLibrary extends Component {
 			shelfID='wantToRead'
 			iconClass={[faHeart, '#f22929']}
 			shelfTitle='Want to Read'
-			onSwitch={onChangeStatus}
+			onShelfSwitch={onShelfSwitch}
 		  />
 
 
@@ -66,7 +66,7 @@ class ShowLibrary extends Component {
 			shelfID='read'
 			iconClass={[faCheckCircle, '#19a228']}
 			shelfTitle='Read'
-			onSwitch={onChangeStatus}
+			onShelfSwitch={onShelfSwitch}
 		  />
 
         </div>

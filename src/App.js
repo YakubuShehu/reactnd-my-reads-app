@@ -9,8 +9,7 @@ import { Route } from 'react-router-dom'
 class BooksApp extends React.Component {
   
   state = {
-    allBooks: [],
-    searchedBooks: []
+    allBooks: []
   }
   
   
@@ -50,9 +49,7 @@ class BooksApp extends React.Component {
     }
     
     // move the current book to the new shelf using API
-    BooksAPI.update(book, newShelf).then(books => {
-      console.log(books);
-    });
+    BooksAPI.update(book, newShelf)
   }
   
 
@@ -64,14 +61,17 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
             <ShowLibrary
           	  books={this.state.allBooks} 
-			  onChangeStatus={this.updateBookLocation}
+			  onShelfSwitch={this.updateBookLocation}
 			  >
             </ShowLibrary>
           )} />
 
         {/* Route: is search page? */}
         <Route path='/search' render={() => (
-            <SearchLibrary>
+            <SearchLibrary
+              books={this.state.allBooks}
+              onShelfSwitch={this.updateBookLocation}
+			>
               Add a book
             </SearchLibrary>
           )} />

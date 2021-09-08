@@ -114,6 +114,12 @@ body h1, h2, h3, h4, h5, h6 {
   outline: none;
 }
 
+
+button.close-search {
+  background-color: #009fec60;
+  border: none;
+}
+
 .close-search {
   display: block;
   top: 20px;

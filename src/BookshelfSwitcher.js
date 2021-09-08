@@ -12,7 +12,7 @@ class BookshelfSwitcher extends Component {
     this.setState({
       formSelectValue: event.target
     });
-    this.props.onSwitch(this.props.book, event.target.value);
+    this.props.onShelfSwitch(this.props.book, event.target.value);
   };
 
   

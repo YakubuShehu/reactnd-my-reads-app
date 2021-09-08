@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import BookshelfSwitcher from './BookshelfSwitcher'
+import BookItem from './BookItem'
 
 
 class BookShelfItem extends Component {
@@ -13,14 +13,14 @@ class BookShelfItem extends Component {
     shelfID: PropTypes.string.isRequired,
     iconClass: PropTypes.array.isRequired,
     shelfTitle: PropTypes.string.isRequired,
-    onSwitch: PropTypes.func.isRequired,
+    onShelfSwitch: PropTypes.func.isRequired,
   }
 
 
 render() {
 
   // define constants from props
-  const { books, shelfID, iconClass, shelfTitle, onSwitch } = this.props
+  const { books, shelfID, iconClass, shelfTitle, onShelfSwitch } = this.props
   const booksToReturn = books.filter((b) => {
     return b.shelf === shelfID;
   })
@@ -46,23 +46,12 @@ render() {
         ) : (
           <ol className='books-grid'>
             {booksToReturn.map((book) => (
-              <li key={book.id}>
-                <div className='book'>
-                  <div className='book-top'>
-                    <div
-                      className='book-cover'
-                      style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}
-                      />
-                    <BookshelfSwitcher
-                      book={book}
-                      shelfID={shelfID}
-                      onSwitch={onSwitch}>
-                    </BookshelfSwitcher>
-                  </div>
-                  <div className='book-title'>{book.title}</div>
-                  <div className='book-authors'>{book.title}</div>
-                </div>
-              </li>
+              <BookItem
+          	    key={book.id}
+              	book={book}
+				shelfID={shelfID}
+				onShelfSwitch={onShelfSwitch}
+			  />
             ))}
           </ol>
         )
