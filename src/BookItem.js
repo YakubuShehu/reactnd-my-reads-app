@@ -39,7 +39,13 @@ class BookItem extends Component {
             </BookshelfSwitcher>
           </div>
           <div className='book-title'>{book.title}</div>
-          <div className='book-authors'>{book.authors.join(', ').toString()}</div>
+          <div className='book-authors'>
+          	{/* EDIT: Cater for books without authors */}
+            {book.authors
+            	? book.authors.join(', ').toString()
+                : 'No Author'
+             }
+          </div>
         </div>
       </li>
 
