@@ -116,8 +116,9 @@ body h1, h2, h3, h4, h5, h6 {
 
 
 button.close-search {
-  background-color: #009fec60;
+  background-color: #cacaca61;
   border: none;
+  cursor: pointer;
 }
 
 .close-search {

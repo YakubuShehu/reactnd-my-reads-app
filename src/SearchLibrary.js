@@ -9,6 +9,7 @@ class SearchLibrary extends Component {
   // assign prop types
   static propTypes = {
     books: PropTypes.array.isRequired,
+    onSearch: PropTypes.func.isRequired,
   }
   
   // add a state object to store search query
@@ -23,9 +24,11 @@ class SearchLibrary extends Component {
   
   // function to update state
   updateQuery = (newQuery) => {
+    const q = newQuery.trim()
     this.setState(() => ({
-      searchQuery: newQuery.trim()
+      searchQuery: q
     }));
+    this.props.onSearch(q);
   }
   
   
@@ -34,15 +37,18 @@ class SearchLibrary extends Component {
     
     // define constants from props and state
     const { searchQuery } = this.state
-    const { books, onShelfSwitch } = this.props
+    const { books, booksSearchedFor, onShelfSwitch } = this.props
     
     
-    // filter contacts based on the query
-    const filteredBooks = searchQuery === ''
-      ? books
-      : books.filter((b) => (
-          b.title.toLowerCase().includes(searchQuery.toLowerCase())
-        ))
+    // Match shelves on searched books, with status of existing books
+    const syncedBooks = booksSearchedFor.map(book => {
+      books.map((b) => {
+        // updating shelf status for matching book
+        if (b.id === book.id) book.shelf = b.shelf
+        return b
+      })
+      return book
+    });
 
     return(
         <div className='search-books'>
@@ -67,12 +73,11 @@ class SearchLibrary extends Component {
           </div>
           <div className='search-books-results'>
             <ol className='books-grid'>
-				{filteredBooks.map((book) => (
+				{syncedBooks.map((book) => (
                   <BookItem
           	    	key={book.id}
                     book={book}
-                    books={books}
-                    shelfID={book.shelf}
+                    shelfID={book.shelf ? book.shelf : 'none' } // cater for books not in any shelf
                     onShelfSwitch={onShelfSwitch}
                   />
                 ))}

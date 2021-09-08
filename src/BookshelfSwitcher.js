@@ -7,16 +7,20 @@ class BookshelfSwitcher extends Component {
   state = {
     formSelectValue: this.props.shelfID
   };
+  
+  
 
+  // Trigger a shelf transfer based on updated select value
   triggerShelfUpdate = (event) => {
     this.setState({
-      formSelectValue: event.target
+      formSelectValue: event.target.value
     });
     this.props.onShelfSwitch(this.props.book, event.target.value);
   };
 
   
   render() {
+    
 
     return(
 

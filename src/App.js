@@ -9,12 +9,14 @@ import { Route } from 'react-router-dom'
 class BooksApp extends React.Component {
   
   state = {
-    allBooks: []
+    allBooks: [],
+    booksSearchedFor: []
   }
   
   
   // On Initial Load: retrieve all books from server
   componentDidMount() {
+  	//window.localStorage.clear(); // I used this to reset local DB in the event of missing books.
     BooksAPI.getAll()
       .then((allBooks) => {
         this.setState(() => ({
@@ -27,13 +29,16 @@ class BooksApp extends React.Component {
   // Method that handles transfer of books between shelf - using state
   updateBookLocation = (book , newShelf) => {
    
+    // move the current book to the new shelf using API
+    BooksAPI.update(book, newShelf)
+    
     // move the book into its new shelf, at new shelf selection
     if (newShelf !== 'none') {
       
       // update the book's shelf value and re-add it to the list
       book.shelf = newShelf
       this.setState(prevState => ({
-      	myBooks: prevState.allBooks.filter((b) => {
+      	allBooks: prevState.allBooks.filter((b) => {
           return b.id !== book.id
         }).concat(book)
       }))
@@ -41,16 +46,28 @@ class BooksApp extends React.Component {
     
     // move the book out of all shelves, at "none" selection
     else {
-      this.setState(prevState => ({
+        this.setState(prevState => ({
           allBooks: prevState.allBooks.filter((b) => {
-            return b.id !== book.id;
+            return b.id !== book.id
           })
       }))
     }
-    
-    // move the current book to the new shelf using API
-    BooksAPI.update(book, newShelf)
   }
+  
+  // Perform seach using BooksAPI
+  searchForBooks = searchQuery => {
+    if (searchQuery.length > 0) {
+      BooksAPI.search(searchQuery).then(books => {
+        if (books.error) { // catch "books not found" from search
+          this.setState({ booksSearchedFor: [] });
+        } else {
+          this.setState({ booksSearchedFor: books });
+        }
+      })
+    } else {
+      this.setState({ booksSearchedFor: [] })
+    }
+  };
   
 
   render() {
@@ -70,6 +87,8 @@ class BooksApp extends React.Component {
         <Route path='/search' render={() => (
             <SearchLibrary
               books={this.state.allBooks}
+              booksSearchedFor={this.state.booksSearchedFor}
+              onSearch={this.searchForBooks}
               onShelfSwitch={this.updateBookLocation}
 			>
               Add a book

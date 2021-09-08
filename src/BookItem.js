@@ -8,7 +8,6 @@ class BookItem extends Component {
   // assign prop types
   static propTypes = {
     book: PropTypes.object.isRequired,
-    shelfID: PropTypes.string.isRequired,
     onShelfSwitch: PropTypes.func.isRequired,
   }
 
@@ -26,7 +25,12 @@ class BookItem extends Component {
           <div className='book-top'>
             <div
               className='book-cover'
-              style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}
+              style={{ width: 128, height: 193, backgroundImage: `url(${
+                     	book.imageLinks
+                     		? book.imageLinks.thumbnail.replace('http://','https://')
+							: 'https://via.placeholder.com/150'
+						})`
+					}}
               />
             <BookshelfSwitcher
               book={book}
